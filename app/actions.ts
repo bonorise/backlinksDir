@@ -6,7 +6,8 @@ import path from 'path';
 
 export async function getBacklinks() {
   try {
-    const markdownPath = path.join(process.cwd(), 'data', 'backlinks.md');
+    // 使用相对路径从项目根目录访问文件
+    const markdownPath = path.join(__dirname, '..', '..', 'data', 'backlinks.md');
     console.log('Attempting to read file from:', markdownPath);
     
     if (!fs.existsSync(markdownPath)) {
