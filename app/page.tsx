@@ -6,6 +6,7 @@ import { TableView } from '@/components/listing/table-view';
 import { Footer } from '@/components/footer';
 import { Category, Backlink } from '@/lib/types';
 import { getBacklinks } from './actions';
+import Head from 'next/head';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -65,15 +66,20 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-background">
-      <Hero
-        categories={categories}
-        selectedCategories={selectedCategories}
-        onSearch={handleSearch}
-        onSelectCategory={handleSelectCategory}
-      />
-      <TableView data={filteredData} />
-      <Footer />
-    </main>
+    <>
+      <Head>
+        <meta name="google-site-verification" content="87S-fF8UbuGXlJ6I7QQiinPUmOhSDklRqyu4Xp3A_Z8" />
+      </Head>
+      <main className="min-h-screen bg-background">
+        <Hero
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onSearch={handleSearch}
+          onSelectCategory={handleSelectCategory}
+        />
+        <TableView data={filteredData} />
+        <Footer />
+      </main>
+    </>
   );
 }
