@@ -1,4 +1,100 @@
 import { Backlink } from '@/lib/types';
 
-// This file now only exports the type, actual data loading is handled by server action
-export type { Backlink };
+export const backlinksData: Backlink[] = [
+  {
+    title: "SEO导航大全",
+    description: "最全面的SEO工具和资源导航网站",
+    url: "https://example.com/seo导航大全",
+    categories: ["导航站"],
+    pricing: ["免费", "付费"],
+    isDoFollow: true,
+    domainAuthority: 45,
+    monthlyTraffic: 50000,
+    requiresReview: true,
+    requiresRegistration: true,
+    freeSubmissionWaitTime: 7,
+    featured: true,
+    lastChecked: "2024-03-20",
+    status: "active"
+  },
+  {
+    title: "营销资源库",
+    description: "数字营销必备资源和工具集合",
+    url: "https://example.com/营销资源库",
+    categories: ["资源站"],
+    pricing: ["付费"],
+    isDoFollow: false,
+    domainAuthority: 38,
+    monthlyTraffic: 35000,
+    requiresReview: false,
+    requiresRegistration: true,
+    freeSubmissionWaitTime: 3,
+    featured: false,
+    lastChecked: "2024-03-19",
+    status: "active"
+  },
+  {
+    title: "SEO优化指南",
+    description: "专业的SEO优化技巧和策略分享",
+    url: "https://example.com/seo优化指南",
+    categories: ["文章站"],
+    pricing: ["免费"],
+    isDoFollow: true,
+    domainAuthority: 52,
+    monthlyTraffic: 75000,
+    requiresReview: true,
+    requiresRegistration: false,
+    freeSubmissionWaitTime: 5,
+    featured: true,
+    lastChecked: "2024-03-20",
+    status: "active"
+  },
+  {
+    title: "外链资源导航",
+    description: "高质量外链资源汇总",
+    url: "https://example.com/外链资源导航",
+    categories: ["导航站"],
+    pricing: ["免费"],
+    isDoFollow: true,
+    domainAuthority: 41,
+    monthlyTraffic: 28000,
+    requiresReview: false,
+    requiresRegistration: false,
+    freeSubmissionWaitTime: 1,
+    featured: false,
+    lastChecked: "2024-03-18",
+    status: "active"
+  },
+  {
+    title: "数字营销学院",
+    description: "专业的数字营销学习平台",
+    url: "https://example.com/数字营销学院",
+    categories: ["资源站", "文章站"],
+    pricing: ["付费"],
+    isDoFollow: false,
+    domainAuthority: 56,
+    monthlyTraffic: 95000,
+    requiresReview: true,
+    requiresRegistration: true,
+    freeSubmissionWaitTime: 14,
+    featured: true,
+    lastChecked: "2024-03-20",
+    status: "active"
+  },
+  {
+    title: "SEO工具集",
+    description: "实用的SEO工具和插件推荐",
+    url: "https://example.com/seo工具集",
+    categories: ["导航站", "其他"],
+    pricing: ["免费", "付费"],
+    isDoFollow: true,
+    domainAuthority: 47,
+    monthlyTraffic: 62000,
+    requiresReview: false,
+    requiresRegistration: true,
+    freeSubmissionWaitTime: 2,
+    featured: false,
+    lastChecked: "2024-03-19",
+    status: "active"
+  }
+];
