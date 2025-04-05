@@ -7,6 +7,7 @@ import { Footer } from '@/components/footer';
 import { Category, Backlink } from '@/lib/types';
 import { getBacklinks } from './actions';
 import Head from 'next/head';
+import { supabase } from '@/lib/supabase';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
