@@ -209,46 +209,29 @@
 ```
 /
 ├── app/
-│   ├── page.tsx          # 主页面组件，包含搜索、筛选和数据展示逻辑
-│   ├── layout.tsx        # 应用布局组件，包含全局导航和主题设置
-│   ├── actions.ts        # 服务器端操作函数，用于获取数据
-│   └── globals.css       # 全局样式文件
+│   ├── page.tsx (主列表页)
+│   ├── layout.tsx
+│   └── [category]/
+│       └── page.tsx
 ├── components/
-│   ├── ui/               # shadcn/ui 组件库
-│   │   ├── button.tsx    # 按钮组件
-│   │   ├── card.tsx      # 卡片组件
-│   │   ├── table.tsx     # 表格组件
-│   │   └── ...           # 其他UI组件
-│   ├── auth/             # 认证相关组件
-│   │   └── login-button.tsx # Google登录按钮组件
-│   ├── hero/             # 首页顶部区域组件
-│   │   ├── search.tsx    # 搜索框组件
-│   │   ├── tags.tsx      # 标签筛选组件
-│   │   └── index.tsx     # Hero区域主组件
-│   ├── listing/          # 数据展示组件
-│   │   └── table-view.tsx # 表格视图组件
-│   ├── nav.tsx           # 导航栏组件
-│   ├── footer.tsx        # 页脚组件
-│   ├── mode-toggle.tsx   # 深色/浅色模式切换组件
-│   └── theme-provider.tsx # 主题提供者组件
+│   ├── ui/ (shadcn组件)
+│   ├── hero/
+│   │   ├── search.tsx
+│   │   ├── tags.tsx
+│   │   └── index.tsx
+│   ├── listing/
+│   │   ├── table-view.tsx
+│   │   └── card-view.tsx
+│   └── shared/
+│       ├── search.tsx
+│       └── tags.tsx
 ├── lib/
-│   ├── utils.ts          # 工具函数
-│   ├── types.ts          # TypeScript类型定义
-│   └── supabase.ts       # Supabase客户端配置和数据操作函数
-├── hooks/
-│   └── use-toast.ts      # Toast通知钩子函数
+│   ├── utils.ts
+│   └── types.ts
 ├── data/
-│   └── backlinks.ts      # 静态反向链接数据(将被Supabase数据库替代)
-├── public/               # 静态资源文件夹
-│   └── google3a3336297e67fda2.html # Google站点验证文件
-├── docs/
-│   └── README.md         # 项目需求文档
-├── components.json       # shadcn/ui组件配置
-├── tailwind.config.ts    # Tailwind CSS配置
-├── next.config.js        # Next.js配置
-├── postcss.config.js     # PostCSS配置
-├── tsconfig.json         # TypeScript配置
-└── package.json          # 项目依赖和脚本
+│   └── backlinks/ (markdown文件)
+└── docs/
+    └── README.md
 ```
 
 ## 补充建议
