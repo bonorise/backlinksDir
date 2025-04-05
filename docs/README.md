@@ -133,42 +133,122 @@
 - 深色模式支持
 
 ### 数据管理
-- Markdown 文件存储
+- Supabase 数据库
+  - 用户认证与授权
+  - 数据存储与查询
+  - 实时数据更新
 - JSON Schema 数据校验
 - Git 版本控制
+
+### Supabase 数据库设计
+
+#### 表结构
+
+1. **backlinks 表**
+   - `id` (uuid, 主键)
+   - `title` (text, 网站名称)
+   - `description` (text, 网站描述)
+   - `url` (text, 网站链接)
+   - `categories` (text[], 分类数组)
+   - `pricing` (text[], 收费类型数组)
+   - `is_do_follow` (boolean, 是否DoFollow)
+   - `domain_authority` (integer, 域名权威度)
+   - `monthly_traffic` (integer, 月访问量)
+   - `requires_review` (boolean, 是否需要审核)
+   - `requires_registration` (boolean, 是否需要注册)
+   - `free_submission_wait_time` (integer, 免费提交等待时间)
+   - `featured` (boolean, 是否特色)
+   - `last_checked` (date, 最后检查日期)
+   - `status` (text, 状态)
+   - `created_at` (timestamp with time zone, 创建时间)
+   - `updated_at` (timestamp with time zone, 更新时间)
+
+2. **users 表** (Supabase Auth 自动创建)
+   - 用户认证信息
+   - 用户个人资料
+
+3. **user_favorites 表** (计划中)
+   - `id` (uuid, 主键)
+   - `user_id` (uuid, 外键关联users表)
+   - `backlink_id` (uuid, 外键关联backlinks表)
+   - `created_at` (timestamp with time zone, 创建时间)
+
+4. **click_stats 表** (计划中)
+   - `id` (uuid, 主键)
+   - `backlink_id` (uuid, 外键关联backlinks表)
+   - `user_id` (uuid, 可为空，外键关联users表)
+   - `clicked_at` (timestamp with time zone, 点击时间)
+   - `referrer` (text, 来源页面)
+   - `user_agent` (text, 用户代理)
+
+#### 数据关系
+
+- 用户可以收藏多个反向链接 (users 1:n user_favorites)
+- 每个反向链接可以被多个用户收藏 (backlinks 1:n user_favorites)
+- 每个反向链接可以有多个点击记录 (backlinks 1:n click_stats)
+
+#### 权限设置
+
+- 匿名用户：只读权限，可查看所有反向链接
+- 已登录用户：可添加收藏，可提交新的反向链接（需审核）
+- 管理员：完全权限，可管理所有数据
+
+### 用户认证
+
+- Google 登录集成
+- 邮箱/密码登录 (计划中)
+- 基于角色的权限控制
 
 ### 部署方案
 - Vercel 托管
 - GitHub 公开仓库
 - 自动化部署
+- Supabase 云服务
 
 ## 项目结构
 ```
 /
 ├── app/
-│   ├── page.tsx (主列表页)
-│   ├── layout.tsx
-│   └── [category]/
-│       └── page.tsx
+│   ├── page.tsx          # 主页面组件，包含搜索、筛选和数据展示逻辑
+│   ├── layout.tsx        # 应用布局组件，包含全局导航和主题设置
+│   ├── actions.ts        # 服务器端操作函数，用于获取数据
+│   └── globals.css       # 全局样式文件
 ├── components/
-│   ├── ui/ (shadcn组件)
-│   ├── hero/
-│   │   ├── search.tsx
-│   │   ├── tags.tsx
-│   │   └── index.tsx
-│   ├── listing/
-│   │   ├── table-view.tsx
-│   │   └── card-view.tsx
-│   └── shared/
-│       ├── search.tsx
-│       └── tags.tsx
+│   ├── ui/               # shadcn/ui 组件库
+│   │   ├── button.tsx    # 按钮组件
+│   │   ├── card.tsx      # 卡片组件
+│   │   ├── table.tsx     # 表格组件
+│   │   └── ...           # 其他UI组件
+│   ├── auth/             # 认证相关组件
+│   │   └── login-button.tsx # Google登录按钮组件
+│   ├── hero/             # 首页顶部区域组件
+│   │   ├── search.tsx    # 搜索框组件
+│   │   ├── tags.tsx      # 标签筛选组件
+│   │   └── index.tsx     # Hero区域主组件
+│   ├── listing/          # 数据展示组件
+│   │   └── table-view.tsx # 表格视图组件
+│   ├── nav.tsx           # 导航栏组件
+│   ├── footer.tsx        # 页脚组件
+│   ├── mode-toggle.tsx   # 深色/浅色模式切换组件
+│   └── theme-provider.tsx # 主题提供者组件
 ├── lib/
-│   ├── utils.ts
-│   └── types.ts
+│   ├── utils.ts          # 工具函数
+│   ├── types.ts          # TypeScript类型定义
+│   └── supabase.ts       # Supabase客户端配置和数据操作函数
+├── hooks/
+│   └── use-toast.ts      # Toast通知钩子函数
 ├── data/
-│   └── backlinks/ (markdown文件)
-└── docs/
-    └── README.md
+│   └── backlinks.ts      # 静态反向链接数据(将被Supabase数据库替代)
+├── public/               # 静态资源文件夹
+│   └── google3a3336297e67fda2.html # Google站点验证文件
+├── docs/
+│   └── README.md         # 项目需求文档
+├── components.json       # shadcn/ui组件配置
+├── tailwind.config.ts    # Tailwind CSS配置
+├── next.config.js        # Next.js配置
+├── postcss.config.js     # PostCSS配置
+├── tsconfig.json         # TypeScript配置
+└── package.json          # 项目依赖和脚本
 ```
 
 ## 补充建议
