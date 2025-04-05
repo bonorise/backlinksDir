@@ -22,32 +22,49 @@ export async function fetchBacklinks(): Promise<Backlink[]> {
     return [];
   }
 
-  const { data, error } = await supabase
-    .from('backlinks')
-    .select('*')
-    .order('featured', { ascending: false })
-    .order('domain_authority', { ascending: false });
-  
-  if (error) {
-    console.error('获取反向链接数据出错:', error);
+  try {
+    console.log('开始获取数据...');
+    const { data, error } = await supabase
+      .from('backlinks')
+      .select('*')
+      .order('featured', { ascending: false })
+      .order('domain_authority', { ascending: false });
+    
+    console.log('原始数据:', data);
+    console.log('错误信息:', error);
+    
+    if (error) {
+      console.error('获取反向链接数据出错:', error);
+      return [];
+    }
+    
+    if (!data || data.length === 0) {
+      console.log('没有获取到数据');
+      return [];
+    }
+    
+    // 将数据库字段名转换为驼峰命名
+    const transformedData = data.map(item => ({
+      title: item.title,
+      description: item.description,
+      url: item.url,
+      categories: Array.isArray(item.categories) ? item.categories : [],
+      pricing: Array.isArray(item.pricing) ? item.pricing : [],
+      isDoFollow: Boolean(item.is_do_follow),
+      domainAuthority: Number(item.domain_authority) || 0,
+      monthlyTraffic: Number(item.monthly_traffic) || 0,
+      requiresReview: Boolean(item.requires_review),
+      requiresRegistration: Boolean(item.requires_registration),
+      freeSubmissionWaitTime: Number(item.free_submission_wait_time) || 0,
+      featured: Boolean(item.featured),
+      lastChecked: item.last_checked,
+      status: item.status || 'active'
+    }));
+    
+    console.log('转换后的数据:', transformedData);
+    return transformedData;
+  } catch (e) {
+    console.error('获取数据时发生异常:', e);
     return [];
   }
-  
-  // 将数据库字段名转换为驼峰命名
-  return data.map(item => ({
-    title: item.title,
-    description: item.description,
-    url: item.url,
-    categories: item.categories,
-    pricing: item.pricing,
-    isDoFollow: item.is_do_follow,
-    domainAuthority: item.domain_authority,
-    monthlyTraffic: item.monthly_traffic,
-    requiresReview: item.requires_review,
-    requiresRegistration: item.requires_registration,
-    freeSubmissionWaitTime: item.free_submission_wait_time,
-    featured: item.featured,
-    lastChecked: item.last_checked,
-    status: item.status
-  }));
 }

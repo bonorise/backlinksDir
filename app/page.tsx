@@ -14,12 +14,16 @@ export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [backlinks, setBacklinks] = useState<Backlink[]>([]);
 
+  // 在组件中添加以下代码
   useEffect(() => {
-    async function loadBacklinks() {
+    async function loadData() {
+      console.log('开始加载数据...');
       const data = await getBacklinks();
+      console.log('页面组件获取到的数据:', data);
       setBacklinks(data);
     }
-    loadBacklinks();
+    
+    loadData();
   }, []);
 
   const categories = useMemo(() => {
