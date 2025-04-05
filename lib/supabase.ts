@@ -1,13 +1,27 @@
 import { createClient } from '@supabase/supabase-js';
 import { Backlink } from './types';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+// 确保环境变量存在
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('缺少 Supabase 环境变量。请确保设置了 NEXT_PUBLIC_SUPABASE_URL 和 NEXT_PUBLIC_SUPABASE_ANON_KEY');
+}
+
+export const supabase = createClient(
+  supabaseUrl || '',
+  supabaseAnonKey || ''
+);
 
 // 获取所有反向链接数据
 export async function fetchBacklinks(): Promise<Backlink[]> {
+  // 如果环境变量缺失，返回空数组
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Supabase 环境变量缺失，无法获取数据');
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('backlinks')
     .select('*')
@@ -15,7 +29,7 @@ export async function fetchBacklinks(): Promise<Backlink[]> {
     .order('domain_authority', { ascending: false });
   
   if (error) {
-    console.error('Error fetching backlinks:', error);
+    console.error('获取反向链接数据出错:', error);
     return [];
   }
   
